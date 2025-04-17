@@ -1,7 +1,5 @@
 <?php
 
-print("testing");
-
 
 //--------------------------------------------//
 $servername = "localhost"; 
