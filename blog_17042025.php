@@ -3,21 +3,15 @@
 print("testing");
 
 
-// 1. Datubāzes konfigurācija
-$servername = "localhost"; // Nomainiet ar savu servera nosaukumu
-$username = "phpdiego"; // Nomainiet ar savu datubāzes lietotājvārdu
-$password = "password"; // Nomainiet ar savu datubāzes paroli
-$database = "postscommentsphp"; // Nomainiet ar savu datubāzes nosaukumu
+//--------------------------------------------//
+$servername = "localhost"; 
+$username = "phpdiego"; 
+$password = "password"; 
+$database = "postscommentsphp"; 
 
-// 2. Datubāzes savienojuma izveide
+//--------------------------------------------//
 $conn = mysqli_connect($servername, $username, $password, $database);
 
-// Pārbaudīt savienojumu
-if (!$conn) {
-    die("Savienojums ar datubāzi neizdevās: " . mysqli_connect_error());
-}
-
-// 3. Datu izgūšanas vaicājuma izveide
 $sql = "SELECT
             p.PostID AS post_id,
             p.Title AS post_title,
@@ -30,15 +24,9 @@ $sql = "SELECT
         LEFT JOIN comments c ON p.PostID = c.PostID
         ORDER BY p.PostID, c.commentID";
 
-// 4. Vaicājuma izpilde
+//--------------------------------------------//
 $result = mysqli_query($conn, $sql);
 
-// Pārbaudīt, vai vaicājums ir veiksmīgs
-if (!$result) {
-    die("Kļūda veicot vaicājumu: " . mysqli_error($conn));
-}
-
-// 5. Datu apstrāde un hierarhiskas struktūras veidošana
 $hierarchicalData = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $postId = $row['post_id'];
@@ -61,7 +49,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 }
 
-// 6. Hierarhiskā masīva attēlošana HTML sarakstā
+//--------------------------------------------//
 function renderList($items)
 {
     echo "<ul>";
@@ -81,7 +69,7 @@ function renderList($items)
     }
     echo "</ul>";
 }
-
+//--------------------------------------------//
 ?>
 
 <!DOCTYPE html>
@@ -93,15 +81,14 @@ function renderList($items)
 </head>
 
 <body>
-    <h1>Ziņas ar Komentāriem</h1>
+    <h1>Ziņas</h1>
     <?php renderList($hierarchicalData); ?>
 </body>
 
 </html>
 
 <?php
-
-// 7. Datubāzes savienojuma aizvēršana
+//--------------------------------------------//
 mysqli_close($conn);
 
 ?>
