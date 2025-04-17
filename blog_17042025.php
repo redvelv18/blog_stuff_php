@@ -2,25 +2,25 @@
 
 
 //--------------------------------------------//
-$servername = "localhost"; 
-$username = "phpdiego"; 
-$password = "password"; 
-$database = "postscommentsphp"; 
+$servername = "localhost";
+$username = "phpdiego";
+$password = "password";
+$database = "postscommentsphp";
 
 //--------------------------------------------//
 $conn = mysqli_connect($servername, $username, $password, $database);
 
 $sql = "SELECT
-            p.PostID AS post_id,
-            p.Title AS post_title,
-            p.Content AS post_content,
-            c.commentID AS comment_id,
-            c.PostID AS comment_post_id,
-            c.comment_text AS comment_text,
-            c.userID AS comment_user_id
+            p.postId AS post_id,
+            p.title AS post_title,
+            p.content AS post_content,
+            c.commentId AS comment_id,
+            c.postId AS comment_post_id,
+            c.commentText AS comment_text,
+            c.userId AS comment_user_id
         FROM Posts p
-        LEFT JOIN comments c ON p.PostID = c.PostID
-        ORDER BY p.PostID, c.commentID";
+        LEFT JOIN comments c ON p.postId = c.postId
+        ORDER BY p.postId, c.commentId";
 
 //--------------------------------------------//
 $result = mysqli_query($conn, $sql);
@@ -41,7 +41,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     if ($row['comment_id'] !== null) {
         $hierarchicalData[$postId]['comments'][] = [
             'id' => $row['comment_id'],
-            'author' => $row['comment_author'],
             'text' => $row['comment_text']
         ];
     }
@@ -53,7 +52,7 @@ function renderList($items)
     echo "<ul>";
     foreach ($items as $item) {
         echo "<li>";
-        echo "<strong>" . htmlspecialchars($item['title'] ?? $item['author']) . "</strong>";
+        echo "<strong>" . htmlspecialchars($item['title']) . "</strong>";
         if (isset($item['content'])) {
             echo "<p>" . htmlspecialchars($item['content']) . "</p>";
         }
@@ -75,11 +74,11 @@ function renderList($items)
 
 <head>
     <meta charset="UTF-8">
-    <title>Ziņas un Komentāri</title>
+    <title>Posts n such</title>
 </head>
 
 <body>
-    <h1>Ziņas</h1>
+    <h1>Posts and comments</h1>
     <?php renderList($hierarchicalData); ?>
 </body>
 
