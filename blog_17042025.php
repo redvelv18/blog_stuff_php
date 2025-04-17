@@ -52,7 +52,9 @@ function renderList($items)
     echo "<ul>";
     foreach ($items as $item) {
         echo "<li>";
-        echo "<strong>" . htmlspecialchars($item['title']) . "</strong>";
+        if (isset($item['title'])) {
+            echo "<strong>" . htmlspecialchars($item['title']) . "</strong>";
+        }
         if (isset($item['content'])) {
             echo "<p>" . htmlspecialchars($item['content']) . "</p>";
         }
